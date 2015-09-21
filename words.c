@@ -89,8 +89,11 @@ void * words(void * args){
   char wordbuf[MAXWORD];
   //pthread_mutex_lock(&mtex);
   while(get_word( wordbuf, MAXWORD, infile ) ) {
-//
+ pthread_mutex_lock(&mtex);
+
+   
     d = insert_word(d, wordbuf); // add to dict
+    pthread_mutex_unlock(&mtex);
   }
   //return; 
 //
@@ -138,7 +141,7 @@ pthread_join(thread4, NULL);
 
 print_dict(d);
 
-//pthread_mutex_destroy(&mtex);
+pthread_mutex_destroy(&mtex);
 
 
   fclose( infile );
